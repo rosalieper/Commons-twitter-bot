@@ -23,14 +23,10 @@ const Twitter = {
 
   reply: async (reply_tweet) => {
     try{
-      console.log(reply_tweet);
-      reply_tweet.image.then(function(value){
-        console.log(value);
-        console.log(reply_tweet);
-        console.log(reply_tweet.getText());
-        //console.log(reply_tweet.getImage());
-        update({ status: reply_tweet.getText(), image: value.image, in_reply_to_status_id: reply_tweet.getInReplyToStatusID() });
-
+      reply_tweet.image.then(async function(value){
+       // console.log(reply_tweet.getEmojiWithModifier());
+        let status_update = await reply_tweet.getText();
+        update({ status: status_update+" "+value.key, image: value.image, in_reply_to_status_id: reply_tweet.getInReplyToStatusID() });
       });
     }catch(err){
       console.log(err);
@@ -58,7 +54,8 @@ async function update(params) {
 
       twit.post('statuses/update', {
         status: param.status ,
-        media_ids: new Array(data.media_id_string)
+        media_ids: new Array(data.media_id_string),
+        in_reply_to_status_id: param.in_reply_to_status_id
       },
         function(err, data, response) {
           if (err){
