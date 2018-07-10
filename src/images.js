@@ -29,7 +29,6 @@ class Images {
     console.log("text sent to getFroTtext: " + text);
     let key = keys.find((key) => {
       key = getBaseCodepoint(key);
-
       return text.indexOf(key) !== -1;
     });
     console.log("emogi in text: " + key);
@@ -44,10 +43,12 @@ async function getImage(records, key) {
 
   if (urls === undefined) {
     return null; // record not found
+	console.log(key);
   } else if (urls.length === 0) {
+	console.log(key);
     return new ImageIncomplete(key);
   }
-
+	console.log(key);
   let url = randomMember(urls);
   console.log(url)
   //split url to have the file name
